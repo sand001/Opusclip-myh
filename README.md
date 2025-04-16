@@ -106,6 +106,7 @@ git commit -m "1.0.1"
 git commit -m "1.0.2"  update Components\LanguageTasks.py
 git commit -m "1.0.3" 
 git commit -m "1.0.4"  Return to de base
+git commit -m "1.0.5"  Ading ---
 
 # Ver el origen del repositorio remoto
 git remote -v
@@ -116,7 +117,7 @@ git log --oneline --graph --decorate --all
 ## Gestión de cambios
 git status
 git add .
-git commit -m "1.0.3"
+git commit -m "1.0.5"
 git push
 
 ## Comandos de Git
