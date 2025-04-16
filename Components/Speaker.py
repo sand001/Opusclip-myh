@@ -1,5 +1,5 @@
 import cv2
-import numpy as np
+import cupy as np
 import webrtcvad
 import wave
 import contextlib
@@ -60,8 +60,17 @@ def detect_faces_and_speakers(input_video_path, output_video_path):
             break
 
         h, w = frame.shape[:2]
-        blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0))
-        net.setInput(blob)
+        # blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0))
+        # Si tienes OpenCV con soporte CUDA, puedes usar lo siguiente para convertir a escala de grises:
+        try:
+            gpu_frame = cv2.cuda_GpuMat()
+            gpu_frame.upload(frame)
+            gpu_gray = cv2.cuda.cvtColor(gpu_frame, cv2.COLOR_BGR2GRAY)
+            gray = gpu_gray.download()
+        except Exception as e:
+            # Si falla, usa el método normal
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        net.setInput(gray)
         detections = net.forward()
 
         audio_frame = next(audio_generator, None)

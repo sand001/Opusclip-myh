@@ -1,5 +1,5 @@
 import cv2
-import numpy as np
+import cupy as np
 from moviepy.editor import *
 from Components.Speaker import detect_faces_and_speakers, Frames
 global Fps
@@ -44,7 +44,15 @@ def crop_to_vertical(input_video_path, output_video_path):
         if not ret:
             print("Error: Could not read frame.")
             break
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        # Si tienes OpenCV con soporte CUDA, puedes usar lo siguiente:
+        try:
+            gpu_frame = cv2.cuda_GpuMat()
+            gpu_frame.upload(frame)
+            gpu_gray = cv2.cuda.cvtColor(gpu_frame, cv2.COLOR_BGR2GRAY)
+            gray = gpu_gray.download()
+        except Exception as e:
+            # Si falla, usa el método normal
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
         if len(faces) >-1:
             if len(faces) == 0:

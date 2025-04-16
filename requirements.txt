@@ -12,3 +12,6 @@ webrtcvad-wheels
 pydub
 openai==1.44.1
 --extra-index-url https://download.pytorch.org/whl/cu121
+cupy-cuda12x
+# NOTA: Para OpenCV con soporte CUDA, se requiere una instalación especial. En Colab, la aceleración CUDA real puede no estar disponible.
+# Para FFMPEG con soporte GPU, Colab ya lo incluye, pero puedes usar comandos con -hwaccel cuda y -c:v h264_nvenc.

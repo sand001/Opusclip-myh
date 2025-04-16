@@ -1,5 +1,5 @@
 import cv2
-import numpy as np
+import cupy as np
 #Face Detection function
 def detect_faces(video_file):
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -13,7 +13,16 @@ def detect_faces(video_file):
     while len(faces) < 5:
         ret, frame = cap.read()
         if ret:
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            # Si tienes OpenCV con soporte CUDA, puedes usar lo siguiente:
+            try:
+                gpu_frame = cv2.cuda_GpuMat()
+                gpu_frame.upload(frame)
+                gpu_gray = cv2.cuda.cvtColor(gpu_frame, cv2.COLOR_BGR2GRAY)
+                gray = gpu_gray.download()
+            except Exception as e:
+                # Si falla, usa el método normal
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             detected_faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
             # Iterate through the detected faces

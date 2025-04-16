@@ -20,6 +20,23 @@ def crop_video(input_file, output_file, start_time, end_time):
         cropped_video = video.subclip(start_time, end_time)
         cropped_video.write_videofile(output_file, codec='libx264')
 
+def crop_video_ffmpeg_gpu(input_file, output_file, start_time, end_time):
+    """
+    Recorta un video usando FFMPEG con aceleración GPU (CUDA).
+    Requiere que FFMPEG tenga soporte para CUDA (Colab lo tiene por defecto).
+    """
+    cmd = [
+        'ffmpeg',
+        '-hwaccel', 'cuda',
+        '-ss', str(start_time),
+        '-to', str(end_time),
+        '-i', input_file,
+        '-c:v', 'h264_nvenc',
+        '-c:a', 'copy',
+        output_file
+    ]
+    subprocess.run(cmd, check=True)
+
 # Example usage:
 if __name__ == "__main__":
     input_file = r"Example.mp4" ## Test
