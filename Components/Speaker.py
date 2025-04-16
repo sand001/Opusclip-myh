@@ -1,5 +1,5 @@
 import cv2
-import cupy as np
+import numpy as np
 import webrtcvad
 import wave
 import contextlib
@@ -60,7 +60,6 @@ def detect_faces_and_speakers(input_video_path, output_video_path):
             break
 
         h, w = frame.shape[:2]
-        # Restauramos el blobFromImage que es necesario para la red neuronal
         blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0, (300, 300), (104.0, 177.0, 123.0))
         net.setInput(blob)
         detections = net.forward()
@@ -71,13 +70,10 @@ def detect_faces_and_speakers(input_video_path, output_video_path):
         is_speaking_audio = voice_activity_detection(audio_frame, sample_rate)
         MaxDif = 0
         Add = []
-        current_frame = None  # Para almacenar las coordenadas del frame actual
-        
         for i in range(detections.shape[2]):
             confidence = detections[0, 0, i, 2]
             if confidence > 0.3:  # Confidence threshold
-                # Convertimos detections a CuPy array antes de la multiplicación
-                box = np.asarray(detections[0, 0, i, 3:7]) * np.array([w, h, w, h])
+                box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
                 (x, y, x1, y1) = box.astype("int")
                 face_width = x1 - x
                 face_height = y1 - y
@@ -89,18 +85,29 @@ def detect_faces_and_speakers(input_video_path, output_video_path):
                 lip_distance = abs((y + 2 * face_height // 3) - (y1))
                 Add.append([[x, y, x1, y1], lip_distance])
 
-                if lip_distance > MaxDif:
-                    MaxDif = lip_distance
-                    current_frame = [x, y, x1, y1]
-                    
-                    # Combine visual and audio cues
-                    if is_speaking_audio:  # Adjust the threshold as needed
-                        cv2.putText(frame, "Active Speaker", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+                MaxDif == max(lip_distance, MaxDif)
+        for i in range(detections.shape[2]):
+            confidence = detections[0, 0, i, 2]
+            if confidence > 0.3:  # Confidence threshold
+                box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+                (x, y, x1, y1) = box.astype("int")
+                face_width = x1 - x
+                face_height = y1 - y
 
-        if current_frame is not None:
-            Frames.append(current_frame)
-        else:
-            Frames.append([0, 0, 0, 0])  # Añadir un frame vacío si no se detectó ningún rostro
+                # Draw bounding box
+                cv2.rectangle(frame, (x, y), (x1, y1), (0, 255, 0), 2)
+
+                # Assuming lips are approximately at the bottom third of the face
+                lip_distance = abs((y + 2 * face_height // 3) - (y1))
+                print(lip_distance)
+
+                # Combine visual and audio cues
+                if lip_distance >= MaxDif and is_speaking_audio:  # Adjust the threshold as needed
+                    cv2.putText(frame, "Active Speaker", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+                if lip_distance >= MaxDif:
+                    break
+
+        Frames.append([x, y, x1, y1])
 
         out.write(frame)
         cv2.imshow('Frame', frame)
