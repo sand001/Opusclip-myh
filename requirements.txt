@@ -10,7 +10,7 @@ pytubefix
 torch
 webrtcvad-wheels
 pydub
-openai==1.44.1
+openai==0.28
 --extra-index-url https://download.pytorch.org/whl/cu121
 cupy-cuda12x
 # NOTA: Para OpenCV con soporte CUDA, se requiere una instalación especial. En Colab, la aceleración CUDA real puede no estar disponible.
