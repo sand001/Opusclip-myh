@@ -101,7 +101,9 @@ This is a v0.1 release and might have some bugs. Please report any issues on the
 
 [Sora AI Video Generator](https://www.vadoo.tv/sora-ai-video-generator)
 
-
+git commit -m "1.0.0"
+git commit -m "1.0.1"
+git commit -m "1.0.2"
 
 # Ver el origen del repositorio remoto
 git remote -v
@@ -112,7 +114,7 @@ git log --oneline --graph --decorate --all
 ## Gestión de cambios
 git status
 git add .
-git commit -m "1.0.0"
+git commit -m "1.0.2"
 git push
 
 ## Comandos de Git
