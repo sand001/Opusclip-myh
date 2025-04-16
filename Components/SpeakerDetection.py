@@ -32,7 +32,7 @@ def detect_faces(video_file):
                     faces.append(face)
 
             # Print the number of unique faces detected so far
-            print(f"---Number of unique faces detected: {len(faces)}")
+            print(f"Number of unique faces detected: {len(faces)}")
 
     # Release the video capture object
     cap.release()
@@ -98,7 +98,7 @@ def crop_video(faces, input_file, output_file):
         else:
             print("No faces detected in the video.")
     except Exception as e:
-        print(f"---Error during video cropping: {str(e)}")
+        print(f"Error during video cropping: {str(e)}")
 
 
     return None
