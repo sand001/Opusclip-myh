@@ -26,7 +26,7 @@ def extract_times(json_string):
         end_time_int = int(end_time)
         return start_time_int, end_time_int
     except Exception as e:
-        print(f"Error in extract_times: {e}")
+        print(f"----Error in extract_times: {e}")
         return 0, 0
 
 
@@ -77,7 +77,7 @@ def GetHighlight(Transcription):
                 Start, End = GetHighlight(Transcription)
         return Start, End
     except Exception as e:
-        print(f"Error in GetHighlight: {e}")
+        print(f"----Error in GetHighlight: {e}")
         return 0, 0
 
 

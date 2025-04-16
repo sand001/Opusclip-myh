@@ -44,7 +44,7 @@ def extract_times(json_string):
         end_time = float(data[0]["end"])
         return int(start_time), int(end_time)
     except Exception as e:
-        print(f"---Error in extract_times: {e}")
+        print(f"-------Error in extract_times: {e}")
         return 0, 0
 
 # Función para obtener el highlight
@@ -70,7 +70,7 @@ def GetHighlight(Transcription):
                 Start, End = GetHighlight(Transcription)
         return Start, End
     except Exception as e:
-        print(f"---Error in GetHighlight: {e}")
+        print(f"-------Error in GetHighlight: {e}")
         return 0, 0
 
 # Ejecutar si es el archivo principal

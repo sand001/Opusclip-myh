@@ -29,7 +29,7 @@ def crop_to_vertical(input_video_path, output_video_path):
 
     x_start = (original_width - vertical_width) // 2
     x_end = x_start + vertical_width
-    print(f"start and end - {x_start} , {x_end}")
+    print(f"----start and end - {x_start} , {x_end}")
     print(x_end-x_start)
     half_width = vertical_width // 2
 
@@ -130,10 +130,10 @@ def combine_videos(video_with_audio, video_without_audio, output_filename):
 
         global Fps
         combined_clip.write_videofile(output_filename, codec='libx264', audio_codec='aac', fps=Fps, preset='medium', bitrate='3000k')
-        print(f"Combined video saved successfully as {output_filename}")
+        print(f"----Combined video saved successfully as {output_filename}")
     
     except Exception as e:
-        print(f"Error combining video and audio: {str(e)}")
+        print(f"----Error combining video and audio: {str(e)}")
 
 
 

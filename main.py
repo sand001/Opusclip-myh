@@ -8,7 +8,7 @@ url = input("Enter YouTube video URL: ")
 Vid= download_youtube_video(url)
 if Vid:
     Vid = Vid.replace(".webm", ".mp4")
-    print(f"Downloaded video and audio files successfully! at {Vid}")
+    print(f"----Downloaded video and audio files successfully! at {Vid}")
 
     Audio = extractAudio(Vid)
     if Audio:
@@ -22,7 +22,7 @@ if Vid:
 
             start , stop = GetHighlight(TransText)
             if start != 0 and stop != 0:
-                print(f"Start: {start} , End: {stop}")
+                print(f"----Start: {start} , End: {stop}")
 
                 Output = "Out.mp4"
 

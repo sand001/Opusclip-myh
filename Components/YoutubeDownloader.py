@@ -17,7 +17,7 @@ def download_youtube_video(url):
         for i, stream in enumerate(video_streams):
             size = get_video_size(stream)
             stream_type = "Progressive" if stream.is_progressive else "Adaptive"
-            print(f"{i}. Resolution: {stream.resolution}, Size: {size:.2f} MB, Type: {stream_type}")
+            print(f"----{i}. Resolution: {stream.resolution}, Size: {size:.2f} MB, Type: {stream_type}")
 
         choice = int(input("Enter the number of the video stream to download: "))
         selected_stream = video_streams[choice]
@@ -25,7 +25,7 @@ def download_youtube_video(url):
         if not os.path.exists('videos'):
             os.makedirs('videos')
 
-        print(f"Downloading video: {yt.title}")
+        print(f"----Downloading video: {yt.title}")
         video_file = selected_stream.download(output_path='videos', filename_prefix="video_")
 
         if not selected_stream.is_progressive:
@@ -45,12 +45,12 @@ def download_youtube_video(url):
             output_file = video_file
 
         
-        print(f"Downloaded: {yt.title} to 'videos' folder")
-        print(f"File path: {output_file}")
+        print(f"----Downloaded: {yt.title} to 'videos' folder")
+        print(f"----File path: {output_file}")
         return output_file
 
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
+        print(f"----An error occurred: {str(e)}")
         print("Please make sure you have the latest version of pytube and ffmpeg-python installed.")
         print("You can update them by running:")
         print("pip install --upgrade pytube ffmpeg-python")
