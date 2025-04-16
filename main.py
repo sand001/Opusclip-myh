@@ -32,10 +32,10 @@ if Vid:
                 crop_to_vertical("Out.mp4", croped)
                 combine_videos("Out.mp4", croped, "Final.mp4")
             else:
-                print("Error in getting highlight")
+                print("+++Error in getting highlight")
         else:
-            print("No transcriptions found")
+            print("+++No transcriptions found")
     else:
-        print("No audio file found")
+        print("+++No audio file found")
 else:
-    print("Unable to Download the video")
+    print("+++Unable to Download the video")

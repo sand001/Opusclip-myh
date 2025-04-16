@@ -10,7 +10,7 @@ def crop_to_vertical(input_video_path, output_video_path):
 
     cap = cv2.VideoCapture(input_video_path, cv2.CAP_FFMPEG)
     if not cap.isOpened():
-        print("Error: Could not open video.")
+        print("+++Error: Could not open video.")
         return
 
     original_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -24,7 +24,7 @@ def crop_to_vertical(input_video_path, output_video_path):
 
 
     if original_width < vertical_width:
-        print("Error: Original video width is less than the desired vertical width.")
+        print("+++Error: Original video width is less than the desired vertical width.")
         return
 
     x_start = (original_width - vertical_width) // 2
@@ -42,7 +42,7 @@ def crop_to_vertical(input_video_path, output_video_path):
     for _ in range(total_frames):
         ret, frame = cap.read()
         if not ret:
-            print("Error: Could not read frame.")
+            print("+++Error: Could not read frame.")
             break
         # Si tienes OpenCV con soporte CUDA, puedes usar lo siguiente:
         try:
@@ -98,7 +98,7 @@ def crop_to_vertical(input_video_path, output_video_path):
                         x_start -= int(cropped_frame.shape[1]) - (x_end-x_start)
                         if x_start < 0:
                             x_end += int(cropped_frame.shape[1]) - (x_end-x_start)
-                    print("Frame size inconsistant")
+                    print("+++Frame size inconsistant")
                     print(x_end- x_start)
 
         count += 1
@@ -114,7 +114,7 @@ def crop_to_vertical(input_video_path, output_video_path):
 
     cap.release()
     out.release()
-    print("Cropping complete. The video has been saved to", output_video_path, count)
+    print("+++Cropping complete. The video has been saved to", output_video_path, count)
 
 
 

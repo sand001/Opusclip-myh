@@ -94,9 +94,9 @@ def crop_video(faces, input_file, output_file):
             cap.release()
             output_video.release()
 
-            print("Video cropped successfully.")
+            print("+++Video cropped successfully.")
         else:
-            print("No faces detected in the video.")
+            print("+++No faces detected in the video.")
     except Exception as e:
         print(f"----Error during video cropping: {str(e)}")
 
@@ -107,6 +107,6 @@ if __name__ == "__main__":
     faces = detect_faces(input)
     print(faces)
     crop_video(faces, input, "Cropped.mp4")
-    print("DONE")
+    print("+++DONE")
 
     

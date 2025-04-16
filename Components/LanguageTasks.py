@@ -54,7 +54,7 @@ Any Example
 
 
 def GetHighlight(Transcription):
-    print("Getting Highlight from Transcription ")
+    print("+++Getting Highlight from Transcription ")
     try:
 
         response = openai.ChatCompletion.create(

@@ -49,7 +49,7 @@ def extract_times(json_string):
 
 # Función para obtener el highlight
 def GetHighlight(Transcription):
-    print("Getting Highlight from Transcription ")
+    print("+++Getting Highlight from Transcription ")
     try:
         response = client.chat.completions.create(
             model="gpt-4o",

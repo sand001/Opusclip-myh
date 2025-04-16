@@ -13,7 +13,7 @@ def download_youtube_video(url):
         video_streams = yt.streams.filter(type="video").order_by('resolution').desc()
         audio_stream = yt.streams.filter(only_audio=True).first()
 
-        print("Available video streams:")
+        print("+++Available video streams:")
         for i, stream in enumerate(video_streams):
             size = get_video_size(stream)
             stream_type = "Progressive" if stream.is_progressive else "Adaptive"
@@ -29,10 +29,10 @@ def download_youtube_video(url):
         video_file = selected_stream.download(output_path='videos', filename_prefix="video_")
 
         if not selected_stream.is_progressive:
-            print("Downloading audio...")
+            print("+++Downloading audio...")
             audio_file = audio_stream.download(output_path='videos', filename_prefix="audio_")
 
-            print("Merging video and audio...")
+            print("+++Merging video and audio...")
             output_file = os.path.join('videos', f"{yt.title}.mp4")
             stream = ffmpeg.input(video_file)
             audio = ffmpeg.input(audio_file)
@@ -51,10 +51,10 @@ def download_youtube_video(url):
 
     except Exception as e:
         print(f"----An error occurred: {str(e)}")
-        print("Please make sure you have the latest version of pytube and ffmpeg-python installed.")
-        print("You can update them by running:")
-        print("pip install --upgrade pytube ffmpeg-python")
-        print("Also, ensure that ffmpeg is installed on your system and available in your PATH.")
+        print("+++Please make sure you have the latest version of pytube and ffmpeg-python installed.")
+        print("+++You can update them by running:")
+        print("+++pip install --upgrade pytube ffmpeg-python")
+        print("+++Also, ensure that ffmpeg is installed on your system and available in your PATH.")
 
 if __name__ == "__main__":
     youtube_url = input("Enter YouTube video URL: ")
