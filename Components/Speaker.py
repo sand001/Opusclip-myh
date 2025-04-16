@@ -5,6 +5,7 @@ import wave
 import contextlib
 from pydub import AudioSegment
 import os
+from google.colab.patches import cv2_imshow  # Importar cv2_imshow para Colab
 
 # Update paths to the model files
 prototxt_path = "models/deploy.prototxt"
@@ -110,7 +111,7 @@ def detect_faces_and_speakers(input_video_path, output_video_path):
         Frames.append([x, y, x1, y1])
 
         out.write(frame)
-        cv2.imshow('Frame', frame)
+        cv2_imshow(frame)  # Reemplazar cv2.imshow por cv2_imshow
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
