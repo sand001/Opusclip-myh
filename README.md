@@ -104,6 +104,8 @@ This is a v0.1 release and might have some bugs. Please report any issues on the
 git commit -m "1.0.0"
 git commit -m "1.0.1"
 git commit -m "1.0.2"  update Components\LanguageTasks.py
+git commit -m "1.0.3" 
+git commit -m "1.0.4"  Return to de base
 
 # Ver el origen del repositorio remoto
 git remote -v
@@ -114,7 +116,7 @@ git log --oneline --graph --decorate --all
 ## Gestión de cambios
 git status
 git add .
-git commit -m "1.0.2"
+git commit -m "1.0.3"
 git push
 
 ## Comandos de Git

@@ -1,26 +1,19 @@
-from openai import OpenAI
+import openai
 from dotenv import load_dotenv
 import os
 import json
-import re
 
 load_dotenv()
 
-# Configuración del cliente OpenAI
-client = OpenAI(api_key=os.getenv("OPENAI_API"))
+openai.api_key = os.getenv("OPENAI_API")
 
-if not os.getenv("OPENAI_API"):
+if not openai.api_key:
     raise ValueError("API key not found. Make sure it is defined in the .env file.")
 
 
 # Function to extract start and end times
 def extract_times(json_string):
     try:
-        # Clean the string to ensure valid JSON
-        json_string = json_string.strip()
-        json_string = re.sub(r'```json\s*|\s*```', '', json_string)
-        json_string = re.sub(r'json\s*', '', json_string)
-        
         # Parse the JSON string
         data = json.loads(json_string)
 
@@ -34,22 +27,25 @@ def extract_times(json_string):
         return start_time_int, end_time_int
     except Exception as e:
         print(f"Error in extract_times: {e}")
-        print(f"JSON string received: {json_string}")
         return 0, 0
 
 
 system = """
-Based on the Transcription user provides with start and end, Highlight the main parts in less than 1 min which can be directly converted into a short. Highlight it such that it's interesting and also keep the time stamps for the clip to start and end. Only select a continuous part of the video.
 
-Follow this Format and return in valid JSON:
+Baised on the Transcription user provides with start and end, Highilight the main parts in less then 1 min which can be directly converted into a short. highlight it such that its intresting and also keep the time staps for the clip to start and end. only select a continues Part of the video
+
+Follow this Format and return in valid json 
 [{
-"start": "Start time of the clip",
-"content": "Highlight Text",
-"end": "End Time for the highlighted clip"
+start: "Start time of the clip",
+content: "Highlight Text",
+end: "End Time for the highlighted clip"
 }]
-It should be one continuous clip as it will then be cut from the video and uploaded as a TikTok video. So only have one start, end and content.
+it should be one continues clip as it will then be cut from the video and uploaded as a tiktok video. so only have one start, end and content
 
-Don't say anything else, just return Proper JSON. No explanation etc.
+Dont say anything else, just return Proper Json. no explanation etc
+
+
+IF YOU DONT HAVE ONE start AND end WHICH IS FOR THE LENGTH OF THE ENTIRE HIGHLIGHT, THEN 10 KITTENS WILL DIE, I WILL DO JSON['start'] AND IF IT DOESNT WORK THEN...
 """
 
 User = """
@@ -60,22 +56,25 @@ Any Example
 def GetHighlight(Transcription):
     print("Getting Highlight from Transcription ")
     try:
-        response = client.chat.completions.create(
+
+        response = openai.ChatCompletion.create(
             model="gpt-4o",
             temperature=0.7,
             messages=[
                 {"role": "system", "content": system},
-                {"role": "user", "content": Transcription},
+                {"role": "user", "content": Transcription + system},
             ],
         )
 
         json_string = response.choices[0].message.content
+        json_string = json_string.replace("json", "")
+        json_string = json_string.replace("```", "")
+        # print(json_string)
         Start, End = extract_times(json_string)
-        
         if Start == End:
-            print("Error - Trying to get highlights again...")
-            Start, End = GetHighlight(Transcription)
-            
+            Ask = input("Error - Get Highlights again (y/n) -> ").lower()
+            if Ask == "y":
+                Start, End = GetHighlight(Transcription)
         return Start, End
     except Exception as e:
         print(f"Error in GetHighlight: {e}")
