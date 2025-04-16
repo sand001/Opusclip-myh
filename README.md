@@ -103,7 +103,7 @@ This is a v0.1 release and might have some bugs. Please report any issues on the
 
 git commit -m "1.0.0"
 git commit -m "1.0.1"
-git commit -m "1.0.2"
+git commit -m "1.0.2"  update Components\LanguageTasks.py
 
 # Ver el origen del repositorio remoto
 git remote -v
