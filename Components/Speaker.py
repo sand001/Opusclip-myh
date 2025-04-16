@@ -74,7 +74,8 @@ def detect_faces_and_speakers(input_video_path, output_video_path):
         for i in range(detections.shape[2]):
             confidence = detections[0, 0, i, 2]
             if confidence > 0.3:  # Confidence threshold
-                box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+                # Convertimos detections a CuPy array antes de la multiplicación
+                box = np.asarray(detections[0, 0, i, 3:7]) * np.array([w, h, w, h])
                 (x, y, x1, y1) = box.astype("int")
                 face_width = x1 - x
                 face_height = y1 - y
@@ -90,7 +91,8 @@ def detect_faces_and_speakers(input_video_path, output_video_path):
         for i in range(detections.shape[2]):
             confidence = detections[0, 0, i, 2]
             if confidence > 0.3:  # Confidence threshold
-                box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+                # Convertimos detections a CuPy array antes de la multiplicación
+                box = np.asarray(detections[0, 0, i, 3:7]) * np.array([w, h, w, h])
                 (x, y, x1, y1) = box.astype("int")
                 face_width = x1 - x
                 face_height = y1 - y
